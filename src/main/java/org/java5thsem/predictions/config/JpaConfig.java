@@ -1,0 +1,25 @@
+package org.java5thsem.predictions.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.auditing.DateTimeProvider;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+import java.time.Clock;
+import java.time.Instant;
+import java.util.Optional;
+
+@Configuration
+@EnableJpaAuditing(dateTimeProviderRef = "auditingDateTimeProvider")
+public class JpaConfig {
+
+    @Bean
+    Clock clock() {
+        return Clock.systemUTC();
+    }
+
+    @Bean
+    DateTimeProvider auditingDateTimeProvider(Clock clock) {
+        return () -> Optional.of(Instant.now(clock));
+    }
+}
